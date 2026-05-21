@@ -88,7 +88,12 @@
 <div id="toast"><span class="toast-icon" id="toast-icon">🎉</span><span id="toast-msg"></span></div>
 
 <!-- MASCOT KỲ LÂN PI COMPANION -->
-<div id="mascot-container" class="mascot-idle" onclick="triggerMascotGiggle()">
+<div id="mascot-container" class="mascot-idle">
+  <!-- Controls bar: Minimize only -->
+  <div class="mascot-controls">
+    <span class="control-btn min-btn" onclick="toggleMascotMinimize(event)" title="Thu nhỏ Kỳ Lân Pi">➖</span>
+  </div>
+  <div class="mascot-sleep-pill" onclick="toggleMascotMinimize(event)" title="Đánh thức Kỳ Lân Pi">💤 🦄</div>
   <div class="mascot-bubble" id="mascot-bubble">Chào bạn! Mình là Kỳ Lân Pi, cùng học Toán nhé! 🦄✨</div>
   <div class="mascot-avatar" id="mascot-avatar"></div>
 </div>

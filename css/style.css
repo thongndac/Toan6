@@ -826,18 +826,140 @@
     width: 95px;
     height: 95px;
     z-index: 999;
-    cursor: pointer;
     pointer-events: none; /* Make container background click-through */
+    transition: width 0.3s, height 0.3s, opacity 0.3s;
   }
+  
+  /* Mascot Controls */
+  .mascot-controls {
+    position: absolute;
+    top: -24px;
+    right: 8px;
+    display: flex;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.65);
+    padding: 4px 8px;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: auto;
+    z-index: 1001;
+    backdrop-filter: blur(4px);
+  }
+  #mascot-container:hover .mascot-controls {
+    opacity: 1;
+  }
+  .control-btn {
+    color: #fff;
+    cursor: pointer;
+    font-size: 11px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s, transform 0.2s;
+    user-select: none;
+  }
+  .control-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.2);
+  }
+  .drag-handle {
+    cursor: move;
+  }
+
+  /* Mascot Sleep / Minimize Mode */
+  .mascot-sleep-pill {
+    display: none;
+    font-size: 24px;
+    background: var(--c-surface);
+    border: 2px solid var(--c-border);
+    padding: 8px;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    cursor: pointer;
+    text-align: center;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    pointer-events: auto;
+    animation: pi-giggle 2.5s ease infinite alternate;
+  }
+  .mascot-sleep-pill:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  }
+  #mascot-container.minimized {
+    width: 48px;
+    height: 48px;
+    bottom: 24px;
+    right: 24px;
+  }
+  #mascot-container.minimized .mascot-sleep-pill {
+    display: flex;
+  }
+  #mascot-container.minimized .mascot-avatar,
+  #mascot-container.minimized .mascot-bubble,
+  #mascot-container.minimized .mascot-controls {
+    display: none !important;
+  }
+
+  /* Mascot Evolution accessory groups */
+  .evo-sprout, .evo-glasses, .evo-wizard, .evo-wings {
+    display: none !important;
+  }
+  
+  /* Show accessory based on active evolution tier class on mascot-container */
+  #mascot-container.evo-tier-1 .evo-sprout {
+    display: block !important;
+  }
+  #mascot-container.evo-tier-2 .evo-glasses {
+    display: block !important;
+  }
+  #mascot-container.evo-tier-3 .evo-wizard {
+    display: block !important;
+  }
+  #mascot-container.evo-tier-4 .evo-wings {
+    display: block !important;
+  }
+
+  /* Galaxy Wings Flapping animations */
+  .wing-left {
+    transform-origin: 30px 65px;
+  }
+  .wing-right {
+    transform-origin: 70px 65px;
+  }
+  #mascot-container.evo-tier-4 .wing-left {
+    animation: wing-flap-left 1.5s ease-in-out infinite alternate;
+  }
+  #mascot-container.evo-tier-4 .wing-right {
+    animation: wing-flap-right 1.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes wing-flap-left {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-18deg); }
+  }
+  @keyframes wing-flap-right {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(18deg); }
+  }
+
   .mascot-avatar {
     width: 100%;
     height: 100%;
     filter: drop-shadow(0 8px 20px rgba(0,0,0,0.15));
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     pointer-events: auto; /* Enable click events on the avatar */
+    cursor: pointer;
   }
   #mascot-container:hover .mascot-avatar {
-    transform: scale(1.12) rotate(4deg) translateY(-4px);
+    transform: scale(1.12) rotate(4deg) translateY(-4px) !important;
   }
   .mascot-bubble {
     background: var(--c-surface);
@@ -893,6 +1015,10 @@
     width: 100%;
     height: 100%;
     overflow: visible;
+    animation: mascot-patrol 18s ease-in-out infinite alternate;
+  }
+  #mascot-container:hover .mascot-svg {
+    animation-play-state: paused;
   }
   
   /* Eye expression controls */
@@ -1014,6 +1140,13 @@
     0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 1px #ff7675); }
     100% { transform: translateY(-4px) scale(1.15); filter: drop-shadow(0 0 5px #e17055); }
   }
+  @keyframes mascot-patrol {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-18px, -5px) rotate(-2deg); }
+    50% { transform: translate(12px, 4px) rotate(1.5deg); }
+    75% { transform: translate(-10px, 8px) rotate(-1deg); }
+    100% { transform: translate(18px, -3px) rotate(2deg); }
+  }
 
   /* ===== MNEMONIC BOX ===== */
   .mnemonic-box {
@@ -1065,3 +1198,475 @@
     0% { transform: rotate(-5deg) scale(1); }
     100% { transform: rotate(5deg) scale(1.05); }
   }
+
+  /* ===== INTERACTIVE SGK EXERCISES SECTION ===== */
+  .sgk-exercises-section {
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px dashed var(--c-border);
+  }
+
+  .sgk-section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--c-text);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--c-gold), var(--c-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .exercise-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .exercise-card:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .exercise-card.correct {
+    border-color: var(--c-emerald);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+  }
+
+  .exercise-card.wrong {
+    border-color: var(--c-rose);
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.15);
+  }
+
+  .ex-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .ex-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--c-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ex-card-status {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status-todo {
+    background: var(--c-surface2);
+    color: var(--c-text2);
+  }
+
+  .status-correct {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--c-emerald);
+  }
+
+  .status-wrong {
+    background: rgba(244, 63, 94, 0.15);
+    color: var(--c-rose);
+  }
+
+  .ex-card-desc {
+    font-size: 14px;
+    color: var(--c-text);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  /* SVG ILLUSTRATIONS IN EXERCISES */
+  .exercise-illustration-box {
+    background: var(--c-surface2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* SUN AND EARTH ORBIT ANIMATION */
+  .svg-sun-earth {
+    max-width: 450px;
+    height: 160px;
+    width: 100%;
+  }
+
+  .orbit-path {
+    stroke-dasharray: 4 4;
+    animation: rotateOrbit 60s linear infinite;
+    transform-origin: 225px 80px;
+  }
+
+  .sun-core {
+    animation: sunGlow 3s ease-in-out infinite alternate;
+  }
+
+  .earth-group {
+    animation: rotateOrbit 12s linear infinite;
+    transform-origin: 225px 80px;
+  }
+
+  .hydrogen-particle {
+    fill: #a5b4fc;
+    opacity: 0.6;
+    animation: beam 2s linear infinite;
+  }
+
+  @keyframes rotateOrbit {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes sunGlow {
+    0% { r: 16; opacity: 0.85; filter: drop-shadow(0 0 5px #f59e0b); }
+    100% { r: 18; opacity: 1; filter: drop-shadow(0 0 15px #f59e0b); }
+  }
+
+  @keyframes beam {
+    0% { transform: translate(0, 0); opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { transform: translate(110px, 0); opacity: 0; }
+  }
+
+  /* BLOOD CELL MICROSCOPE ANIMATION */
+  .svg-blood-cell {
+    max-width: 450px;
+    height: 160px;
+    width: 100%;
+  }
+
+  .blood-flow-cell {
+    animation: flowCell 6s linear infinite;
+  }
+
+  .blood-flow-cell-fast {
+    animation: flowCell 4s linear infinite;
+  }
+
+  .blood-pulse-heart {
+    transform-origin: 390px 45px;
+    animation: heartPulse 1.2s ease-in-out infinite;
+  }
+
+  @keyframes flowCell {
+    0% { transform: translate(-50px, 0); }
+    100% { transform: translate(450px, 0); }
+  }
+
+  @keyframes heartPulse {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.15); }
+    60% { transform: scale(1); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  /* INTERACTIVE INPUT STYLES */
+  .exercise-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .workspace-row {
+    display: grid;
+    grid-template-columns: minmax(100px, 200px) 1fr;
+    align-items: center;
+    gap: 12px;
+  }
+
+  @media (max-width: 576px) {
+    .workspace-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+
+  .workspace-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c-text2);
+  }
+
+  .workspace-input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+
+  .workspace-input {
+    flex: 1;
+    background: var(--c-surface2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    color: var(--c-text);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .workspace-input:focus {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    background: var(--c-surface);
+  }
+
+  .workspace-input.correct {
+    border-color: var(--c-emerald);
+    color: var(--c-emerald);
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .workspace-input.wrong {
+    border-color: var(--c-rose);
+    color: var(--c-rose);
+    background: rgba(244, 63, 94, 0.05);
+  }
+
+  .workspace-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.85;
+  }
+
+  /* HTML INTERACTIVE TABLE FOR 1.37 */
+  .sgk-interactive-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 16px 0;
+    font-size: 12px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+  }
+
+  .sgk-interactive-table th, .sgk-interactive-table td {
+    padding: 10px 12px;
+    text-align: center;
+    border: 1px solid var(--c-border);
+  }
+
+  .sgk-interactive-table th {
+    background: var(--c-surface2);
+    color: var(--c-accent);
+    font-weight: 700;
+  }
+
+  .sgk-interactive-table td {
+    background: var(--c-surface);
+    color: var(--c-text);
+    vertical-align: middle;
+  }
+
+  .table-input {
+    width: 100%;
+    max-width: 110px;
+    text-align: center;
+    background: var(--c-surface2);
+    border: 1px solid var(--c-border);
+    border-radius: 4px;
+    padding: 5px 8px;
+    color: var(--c-text);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .table-input:focus {
+    border-color: var(--c-accent);
+    background: var(--c-surface);
+  }
+
+  .table-input.correct {
+    border-color: var(--c-emerald);
+    color: var(--c-emerald);
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .table-input.wrong {
+    border-color: var(--c-rose);
+    color: var(--c-rose);
+    background: rgba(244, 63, 94, 0.05);
+  }
+
+  /* ACTIONS BUTTONS IN EXERCISE CARDS */
+  .ex-card-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+  }
+
+  .ex-btn {
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ex-btn-verify {
+    background: linear-gradient(135deg, var(--c-accent), var(--c-accent2));
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+  }
+
+  .ex-btn-verify:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+  }
+
+  .ex-btn-hint {
+    background: var(--c-surface2);
+    border: 1px solid var(--c-border);
+    color: var(--c-gold);
+  }
+
+  .ex-btn-solution {
+    background: var(--c-surface2);
+    border: 1px solid var(--c-border);
+    color: var(--c-text2);
+    margin-left: auto;
+  }
+
+  @media (max-width: 480px) {
+    .ex-btn-solution {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+
+  /* HINT AND SOLUTION CONTENT PANELS */
+  .ex-hint-panel {
+    background: rgba(245, 158, 11, 0.05);
+    border: 1px dashed rgba(245, 158, 11, 0.25);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--c-text2);
+    line-height: 1.6;
+    display: none;
+    animation: slideDown 0.25s ease-out;
+  }
+
+  .ex-solution-panel {
+    background: rgba(16, 185, 129, 0.05);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--c-text);
+    line-height: 1.6;
+    display: none;
+    animation: slideDown 0.25s ease-out;
+  }
+
+  .ex-solution-panel.open, .ex-hint-panel.open {
+    display: block;
+  }
+
+  .panel-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  .panel-title-hint { color: var(--c-gold); }
+  .panel-title-solution { color: var(--c-emerald); }
+
+  @keyframes slideDown {
+    0% { opacity: 0; transform: translateY(-8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== DISCOVERABILITY & NAVIGATION STYLES ===== */
+  .badge-exercises {
+    margin-left: 6px;
+    font-size: 10px;
+    background: linear-gradient(135deg, var(--c-accent2), var(--c-rose));
+    color: #ffffff;
+    padding: 2px 4px;
+    border-radius: 8px;
+    font-weight: 800;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
+    animation: pulseBadge 2s infinite ease-in-out;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulseBadge {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  .sgk-exercises-banner {
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  }
+  .sgk-exercises-banner:hover {
+    transform: translateY(-3px);
+    border-color: rgba(99, 102, 241, 0.6) !important;
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25);
+  }
+  .sgk-exercises-banner:hover button {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+  }
+  .sgk-exercises-banner button {
+    transition: all 0.3s ease;
+  }
+
+  .sgk-exercises-quick-link {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  }
+  .sgk-exercises-quick-link:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(162, 155, 254, 0.12), rgba(108, 92, 231, 0.12)) !important;
+    border-color: rgba(162, 155, 254, 0.5) !important;
+    box-shadow: 0 8px 20px rgba(108, 92, 231, 0.15);
+  }
+  .sgk-exercises-quick-link:hover button {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(162, 155, 254, 0.4);
+  }
+  .sgk-exercises-quick-link button {
+    transition: all 0.3s ease;
+  }
